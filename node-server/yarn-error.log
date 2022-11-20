@@ -1,0 +1,56 @@
+Arguments: 
+  /Users/jiashengwang/.nvm/versions/node/v16.17.0/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /Users/jiashengwang/.rvm/gems/ruby-3.0.0/bin:/Users/jiashengwang/.rvm/gems/ruby-3.0.0@global/bin:/Users/jiashengwang/.rvm/rubies/ruby-3.0.0/bin:/Users/jiashengwang/.nvm/versions/node/v16.17.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Apple/usr/bin:/Users/jiashengwang/.rvm/gems/ruby-3.0.0/bin:/Users/jiashengwang/.rvm/gems/ruby-3.0.0@global/bin:/Users/jiashengwang/.rvm/rubies/ruby-3.0.0/bin:/Users/jiashengwang/.nvm/versions/node/v16.17.0/bin:/Users/jiashengwang/.rvm/bin
+
+Yarn version: 
+  1.22.17
+
+Node version: 
+  16.17.0
+
+Platform: 
+  darwin arm64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/ts-node-dev: ETIMEDOUT
+      at Timeout._onTimeout (/usr/local/lib/node_modules/yarn/lib/cli.js:141543:19)
+      at listOnTimeout (node:internal/timers:559:17)
+      at processTimers (node:internal/timers:502:7)
+
+npm manifest: 
+  {
+    "name": "node-server",
+    "version": "1.0.0",
+    "description": "使用node搭建静态服务器",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "ts-node-dev index.ts"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/wangjs-jacky/node-server.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/wangjs-jacky/node-server/issues"
+    },
+    "homepage": "https://github.com/wangjs-jacky/node-server#readme",
+    "dependencies": {
+      "ts-node-dev": "^1.1.8",
+      "typescript": "^4.5.5"
+    },
+    "devDependencies": {
+      "@types/node": "^17.0.16"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
