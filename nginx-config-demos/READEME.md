@@ -43,8 +43,6 @@ $ docker-compose up location
 
 > 注：`index.html` 等静态资源的变动会立即被映射到 `docker` 容器内部，而 `nginx` 配置的修改，需要重新执行 `docker-compose up <service>` 指令才会生效。
 
-
-
 ## Nginx 路径匹配规则
 
 ocation 用以匹配路由，配置语法如下。
@@ -57,10 +55,8 @@ location [ = | ~ | ~* | ^~ ] uri { ... }
 
 - `=` 精确匹配，优先级最高。
 - `^~` 前缀匹配，优先级其次。如果同样是前缀匹配，走最长路径。
-- `~` 正则匹配，优先级再次 (~* 只是不区分大小写，不单列)。如果同样是正则匹配，走第一个路径。
+- `~` 正则匹配，优先级再次 (~\* 只是不区分大小写，不单列)。如果同样是正则匹配，走第一个路径。
 - `/` 通用匹配，优先级再次。
-
-
 
 为了熟悉以上匹配规则，编写了以下案例：
 
@@ -79,8 +75,6 @@ location [ = | ~ | ~* | ^~ ] uri { ... }
 
 当访问资源时，需设置 `default_type` 为 `text/plain`，避免浏览器自动下载。
 
-
-
 ### location2.conf
 
 需要启动两个服务：
@@ -88,7 +82,7 @@ location [ = | ~ | ~* | ^~ ] uri { ... }
 ```shell
  # 同时启动两个服务
  docker-compose up location1 api
- # 等价于 
+ # 等价于
  docker-compose up location1
  docker-compose up api
 ```
@@ -101,11 +95,37 @@ location [ = | ~ | ~* | ^~ ] uri { ... }
    api:
      image: shanyue/whoami
      ports:
-     - 8888:3000
+       - 8888:3000
    ```
 
    - 对外：该服务主要用于打印请求信息等内容，该服务启动在 `docker` 容器内的 `3000` 端口，外部可通过 `8888` 端口访问。
 
    - 对内：在 `location2` 容器中，也可直接通过 `service` 名称作为 `hostname` ，即 `http://api:3000` 去访问 api 服务。
 
-2. `.conf` 文件中当资源不存时，进行反向代理，如访问 `http:localhost:8002/test1`，将其代理到 `http://api：3000/test1` 上。 
+2. `.conf` 文件中当资源不存时，进行反向代理，如访问 `http:localhost:8002/test1`，将其代理到 `http://api：3000/test1` 上。
+
+### order.conf
+
+需要启动两个服务：
+
+```shell
+ # 同时启动两个服务
+ docker-compose up order api
+ # 等价于
+ docker-compose up order
+ docker-compose up api
+```
+
+依次执行：
+
+```shell
+curl --head http://localhost:8004/order1  # 答案 A
+curl --head http://localhost:8004/order2  # 答案 A
+curl --head http://localhost:8004/order3  # 答案 A
+curl --head http://localhost:8004/order4  # 答案 A
+```
+
+结论很简单，能用 `^~ /order4 （前缀匹配）就用前缀匹配，次之用 `~ ^/order` （正则匹配），最后采用 `/order`（通用匹配），如果命中同一规则，则越短越容易匹配上。
+
+
+
