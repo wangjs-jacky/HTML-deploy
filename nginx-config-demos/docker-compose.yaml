@@ -9,3 +9,11 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
       - .:/usr/share/nginx/html
+  location1:
+    image: nginx:alpine
+    ports: 
+      - 8002:80
+    volumes:
+      - ./location1.conf:/etc/nginx/conf.d/default.conf
+      - .:/usr/share/nginx/html
+  
