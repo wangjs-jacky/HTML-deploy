@@ -82,3 +82,30 @@ location [ = | ~ | ~* | ^~ ] uri { ... }
 
 
 ### location2.conf
+
+需要启动两个服务：
+
+```shell
+ # 同时启动两个服务
+ docker-compose up location1 api
+ # 等价于 
+ docker-compose up location1
+ docker-compose up api
+```
+
+在 `location1.conf` 案例中，存在一个问题：当资源不存的情况下，无法添加 `add_header` 请求，无法通过 `curl --head 地址` 的方式去定位是否命中匹配路径的问题，只有当资源真实存在时，才可对匹配规则进行验证。解决方案如下：
+
+1. 在 `docker-compose.yaml` 添加 `shanyue/whoamI` 镜像
+
+   ```yaml
+   api:
+     image: shanyue/whoami
+     ports:
+     - 8888:3000
+   ```
+
+   - 对外：该服务主要用于打印请求信息等内容，该服务启动在 `docker` 容器内的 `3000` 端口，外部可通过 `8888` 端口访问。
+
+   - 对内：在 `location2` 容器中，也可直接通过 `service` 名称作为 `hostname` ，即 `http://api:3000` 去访问 api 服务。
+
+2. `.conf` 文件中当资源不存时，进行反向代理，如访问 `http:localhost:8002/test1`，将其代理到 `http://api：3000/test1` 上。 
