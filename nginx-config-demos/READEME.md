@@ -42,3 +42,43 @@ $ docker-compose up location
 ```
 
 > 注：`index.html` 等静态资源的变动会立即被映射到 `docker` 容器内部，而 `nginx` 配置的修改，需要重新执行 `docker-compose up <service>` 指令才会生效。
+
+
+
+## Nginx 路径匹配规则
+
+ocation 用以匹配路由，配置语法如下。
+
+```nginx
+location [ = | ~ | ~* | ^~ ] uri { ... }
+```
+
+其中 `uri` 前可提供以下修饰符
+
+- `=` 精确匹配，优先级最高。
+- `^~` 前缀匹配，优先级其次。如果同样是前缀匹配，走最长路径。
+- `~` 正则匹配，优先级再次 (~* 只是不区分大小写，不单列)。如果同样是正则匹配，走第一个路径。
+- `/` 通用匹配，优先级再次。
+
+
+
+为了熟悉以上匹配规则，编写了以下案例：
+
+### location1.conf
+
+```shell
+ docker-compose up location1
+```
+
+分别访问：
+
+- `http://localhost:8002/about.html`：存在 `about.html` 文件，访问成功
+- `http://localhost:8002/hello` ： 返回 404 ，无法成功设置头部
+- `http://localhost:8002/shengJacky`：存在 `shengJacky 文件`，访问成功
+- `http://localhost:8002/sheng`：存在 `sheng` 文件，访问成功
+
+当访问资源时，需设置 `default_type` 为 `text/plain`，避免浏览器自动下载。
+
+
+
+### location2.conf
