@@ -144,3 +144,33 @@ location / {
 
 
 
+## 设置 502 与 504 响应
+
+```shell
+ # 同时启动两个服务
+ docker-compose up 50x
+```
+
+`nginx` 的配置方案如下：
+
+```nginx
+# 网关错误
+location /502 {
+  add_header X-Config A;
+  # 对于不存在的 upstream ，返回 502 -bad gateway（网关错误）
+  proxy_pass http://localhost:9999;
+}
+
+# 网关响应超时
+location /504 {
+  # 连接超过 10s 
+  proxy_connect_timeout 10s;
+  # 读取 upstream 时间超过 10s
+  proxy_read_timeout 10s;
+  # 读取 upstream 时间超过 10s
+  proxy_send_timeout 10s;
+  # api 服务器可以通过 wait 参数设置响应延迟时间
+  proxy_pass http://api:3000/?wait=3000000;
+}
+```
+
