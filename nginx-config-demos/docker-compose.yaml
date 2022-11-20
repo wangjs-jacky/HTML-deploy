@@ -34,4 +34,11 @@ services:
     volumes:
       - ./order.conf:/etc/nginx/conf.d/default.conf
       - .:/usr/share/nginx/html
+  gzip:
+    image: nginx:alpine
+    ports:
+      - 8005:80
+    volumes:
+      - ./gzip.conf:/etc/nginx/conf.d/default.conf
+      - .:/usr/share/nginx/html
   

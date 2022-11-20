@@ -91,6 +91,8 @@ location [ = | ~ | ~* | ^~ ] uri { ... }
 
 1. 在 `docker-compose.yaml` 添加 `shanyue/whoamI` 镜像
 
+   > whoamI 仓库地址：https://github.com/shfshanyue/whoami
+
    ```yaml
    api:
      image: shanyue/whoami
@@ -126,6 +128,19 @@ curl --head http://localhost:8004/order4  # 答案 A
 ```
 
 结论很简单，能用 `^~ /order4 （前缀匹配）就用前缀匹配，次之用 `~ ^/order` （正则匹配），最后采用 `/order`（通用匹配），如果命中同一规则，则越短越容易匹配上。
+
+
+
+### gzip.conf 与 `broti.conf`
+
+开启 `gzip` 资源压缩，代码非常简单就一行
+
+```nginx
+location / {
+  # 开启 gzip 压缩 
+  gzip on;
+}
+```
 
 
 
