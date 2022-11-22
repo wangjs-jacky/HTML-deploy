@@ -1,0 +1,14 @@
+version: "3"
+services:
+  serve:
+    build: 
+      context: .
+      dockerfile: serve.Dockerfile
+    ports:
+      - 3005:3005
+  nginx:
+    build: 
+      context: .
+      dockerfile: nginx.Dockerfile
+    ports:
+      - 3000:80

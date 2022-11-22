@@ -1,70 +1,36 @@
-# Getting Started with Create React App
+# 部署 SPA 项目
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1.准备 `spa` 项目文件
 
-## Available Scripts
+使用 `cra` 创建一个 SPA 项目
 
-In the project directory, you can run:
+```shell
+# 创建一个 cra 应用
+$ npx create-react-app cra-deploy
 
-### `npm start`
+# 进入 cra 目录
+$ cd cra-deploy
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+# 进行依赖安装
+$ yarn
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# 对资源进行构建
+$ npm run build
+```
 
-### `npm test`
+## 2.编写 `dockerfile` 和 `docker-compose.yaml` 文件
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 案例：比较 `node` 和 `nginx` 构建后的镜像大小
 
-### `npm run build`
+```shell
+# 启动 serve 和 nginx 构建
+docker-compose up serve nginx
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+其中，`serve.Dockerfile` 采用 `node+serve` 的方式部署，`nginx.Dockerfile` 采用 `nginx` 部署
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+分别启动 `http://localhost:3000/` 和 `http://localhost:3005/` 查看部署结果
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+使用 `docker images` 查看 `images` 大小，截图使用的 `docker` 客户端：
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![](https://wjs-tik.oss-cn-shanghai.aliyuncs.com/image-20221122094834164.png)
