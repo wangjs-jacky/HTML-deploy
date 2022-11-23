@@ -3,7 +3,7 @@
 ## 前言：部署 `SPA` 与单页 `HTML` 的区别
 
 1. 单页应用如果路由采用 `History` 模式，页面会出现 `404` 无法访问的情况。
-2. 单页应用会对静态资源进行 `hash` 命名，对 `hash` 命名的文件，需要设置 `cache-control` 为 `1y` 的强制缓存处理。
+2. 单页应用会对静态资源进行 `hash` 命名，对 `hash` 命名的文件，需要设置 `cache-control` 为 `1y` 的强制缓存处理。【Long Term Cache】
 
 
 
@@ -37,3 +37,14 @@ docker-compose up serve nginx
 
 ![](https://wjs-tik.oss-cn-shanghai.aliyuncs.com/image-20221122094834164.png)
 
+
+
+## 扩展问题
+
+1. `no-cache` 与 `no-store` 的区别
+
+   > 注：这里的缓存控制，是服务器通过响应头 `Cache-Control` 传递给客户端的过程。虽然客户端也可以设置 `Cache-Control` 但是作用不是很明显，资源缓存这块还是以服务器为主。
+
+   - `no-cahce`：允许客户端对资源进行缓存，但是每次都需要去服务端做新鲜度校验（协商缓存），如果发现资源已过期，则返回状态码 `200`，如果未过期则通过状态码 `304` 告知服务端沿用缓存资源。
+     - 对 `index.html` 以及 `public` 资源文件，均需要设置 `Cache-Control:no-cache`，每次都去做新鲜度校验，也即等价设置缓存头：`Cache-Control: max-age=0, must-revalidate`
+   - `no-store`：**永远不要在客户端存储资源**，每次都是从上游服务器中去获取资源。
