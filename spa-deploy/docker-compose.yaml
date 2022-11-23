@@ -12,3 +12,9 @@ services:
       dockerfile: nginx.Dockerfile
     ports:
       - 3000:80
+  router:
+    build: 
+      context: .
+      dockerfile: router.Dockerfile
+    ports:
+      - 3000:80
