@@ -9,10 +9,8 @@ const queue = new PQueue({ concurrency: 10 });
 const client = new OSS({
   /* cdn 缓存地址 */
   region: "oss-cn-shanghai",
-  /*   accessKeyId: process.env.ACCESS_KEY_ID,
-    accessKeySecret: process.env.ACCESS_KEY_SECRET, */
-  accessKeyId: 'LTAI4GBDifSBDCVzfJCyMux2',
-  accessKeySecret: "NWrAnDbDMlQGDDH4ej2NB2eqPwlZfa",
+  accessKeyId: process.env.ACCESS_KEY_ID,
+  accessKeySecret: process.env.ACCESS_KEY_SECRET,
   /* bucket */
   bucket: 'cdn-pic-wjs',
   secure: true
